@@ -1,6 +1,7 @@
 const exprerss = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const Url = require('./models/url')
 const app = exprerss()
 const PORT = 3000
 
@@ -20,7 +21,10 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
-  res.render('index')
+  Url.find()
+    .lean()
+    .then(urls => res.render('index', { urls }))
+    .catch(error => console.log(error))
 })
 
 app.listen(PORT, () => {
