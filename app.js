@@ -1,7 +1,10 @@
 const exprerss = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+
+const bodyParser = require('body-parser')
 const Url = require('./models/url')
+const random = require('./public/javascripts/random')
 const app = exprerss()
 const PORT = 3000
 
@@ -17,13 +20,19 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.get('/', (req, res) => {
-  Url.find()
-    .lean()
-    .then(urls => res.render('index', { urls }))
+  res.render('index')
+})
+
+app.post('/', (req, res) => {
+  const originalUrl = req.body.url
+  const shortenerUrl = random()
+  return Url.create({ originalUrl, shortenerUrl })
+    .then(() => res.render('shortUrl', { originalUrl, shortenerUrl }))
     .catch(error => console.log(error))
 })
 
