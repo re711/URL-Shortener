@@ -52,7 +52,7 @@ app.post('/', (req, res) => {
 
 app.get('/:shortenerUrl', (req, res) => {
   const shortenerUrl = req.params.shortenerUrl
-  return Url.find({ shortenerUrl: shortenerUrl })
+  Url.find({ shortenerUrl: shortenerUrl })
     .lean()
     .then((url) => res.redirect(`${url[0].originalUrl}`))
     .catch(error => console.log(error))

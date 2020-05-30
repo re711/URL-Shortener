@@ -1,10 +1,31 @@
 <div class="container mt-5">
-  <div class="row d-flex justify-content-center">
-    <div class="">
+  <div class="col">
+    <div class="col">
       <h1 class="d-flex justify-content-center">URL Shortener</h1>
       <i class="fas fa-link fa-10x d-flex justify-content-center mt-5" style="color: rgb(231, 112, 14);"></i>
-        <input href="{{originalUrl}}" name="shortUrl" class=" col d-flex justify-content-center mt-5" value="http://localhost:3000/{{shortenerUrl}}" readonly>
-        <button type="button" class="btn btn-primary mt-3"><i class="fas fa-copy fa-2x"></i></button>
+    </div>
+      <div class="col d-flex justify-content-center mt-5">
+        <table>
+          <tbody>
+            <tr class="table-secondary">
+              <td>
+                <a href="{{originalUrl}}" class="col my-3" id="copy">http://localhost:3000/{{shortenerUrl}}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <button type="button" class="btn btn-primary" onclick="copyEvent('copy')"><i class="fas fa-copy fa-2x"></i></button>
+        <script>
+          function copyEvent(id) {
+            const str = document.getElementById(id);
+            window.getSelection().selectAllChildren(str);
+            document.execCommand("Copy")
+            alert('複製成功')
+          }
+        </script>
+      </div>
     </div>
   </div>
 </div>
