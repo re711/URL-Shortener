@@ -31,18 +31,23 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   const originalUrl = req.body.url
   const shortenerUrl = random()
-  Url.findOne({ originalUrl: originalUrl })
-  // 檢查網址防止重複
-    .lean()
-    .then(check => {
-      if (check) {
-        return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl })
-      } else {
-        Url.create({ originalUrl, shortenerUrl })
-        return res.render('shortUrl', { originalUrl, shortenerUrl })
-      }
-    })
-    .catch(error => console.log(error))
+  if (originalUrl.length === 0) {
+    const err = '請輸入有效網址'
+    res.render('index', { err, originalUrl })
+  } else {
+    Url.findOne({ originalUrl: originalUrl })
+    // 檢查網址防止重複
+      .lean()
+      .then(check => {
+        if (check) {
+          return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl })
+        } else {
+          Url.create({ originalUrl, shortenerUrl })
+          return res.render('shortUrl', { originalUrl, shortenerUrl })
+        }
+      })
+      .catch(error => console.log(error))
+  }
 })
 
 app.get('/:shortenerUrl', (req, res) => {
