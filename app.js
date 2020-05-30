@@ -31,8 +31,17 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   const originalUrl = req.body.url
   const shortenerUrl = random()
-  return Url.create({ originalUrl, shortenerUrl })
-    .then(() => res.render('shortUrl', { originalUrl, shortenerUrl }))
+  Url.findOne({ originalUrl: originalUrl })
+  // 檢查網址防止重複
+    .lean()
+    .then(check => {
+      if (check) {
+        return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl })
+      } else {
+        Url.create({ originalUrl, shortenerUrl })
+        return res.render('shortUrl', { originalUrl, shortenerUrl })
+      }
+    })
     .catch(error => console.log(error))
 })
 
