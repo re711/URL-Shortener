@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost/URL-shortener'
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/URL-shortener'
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const db = mongoose.connection
 
