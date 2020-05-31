@@ -6,7 +6,7 @@ const routes = require('./routes')
 require('./config/mongoose')
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
