@@ -1,13 +1,7 @@
-const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const Url = require('../url')
-mongoose.connect('mongodb://localhost/URL-shortener', { useNewUrlParser: true, useUnifiedTopology: true })
 
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
+const db = ('../../config/mongoose')
 
 db.once('open', () => {
   console.log('mongodb connected!')
