@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+  const hostName = req.hostname
   const originalUrl = req.body.url
   const shortenerUrl = random()
   if (originalUrl.length === 0) {
@@ -19,21 +20,20 @@ router.post('/', (req, res) => {
       .lean()
       .then(check => {
         if (check) {
-          return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl })
+          return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl, hostName })
         } else {
           Url.create({ originalUrl, shortenerUrl })
-          return res.render('shortUrl', { originalUrl, shortenerUrl })
+          return res.render('shortUrl', { originalUrl, shortenerUrl, hostName })
         }
       })
       .catch(error => console.log(error))
   }
 })
 
-router.get('/:shortenerUrl', (req, res) => {
-  const shortenerUrl = req.params.shortenerUrl
-  Url.find({ shortenerUrl: shortenerUrl })
-    .lean()
-    .then((url) => res.redirect(`${url[0].originalUrl}`))
+router.get('/:id', (req, res) => {
+  const id = req.params.id
+  Url.findOne({ shortenerUrl: id })
+    .then(url => res.redirect(`${url.originalUrl}`))
     .catch(error => console.log(error))
 })
 

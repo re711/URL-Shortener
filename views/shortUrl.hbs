@@ -9,7 +9,7 @@
           <tbody>
             <tr class="table-secondary">
               <td>
-                <a href="{{originalUrl}}" class="col my-3" id="copy">http://localhost:3000/{{shortenerUrl}}</a>
+                <a href="{{originalUrl}}" class="col my-3" id="copy">{{hostName}}/{{shortenerUrl}}</a>
               </td>
             </tr>
           </tbody>
@@ -19,9 +19,9 @@
         <button type="button" class="btn btn-primary" onclick="copyEvent('copy')"><i class="fas fa-copy fa-2x"></i></button>
         <script>
           function copyEvent(id) {
-            const str = document.getElementById(id);
-            window.getSelection().selectAllChildren(str);
-            document.execCommand("Copy")
+            const str = document.getElementById(id)
+            window.getSelection().selectAllChildren(str)
+            document.execCommand('Copy')
             alert('複製成功')
           }
         </script>
