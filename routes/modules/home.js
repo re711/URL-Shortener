@@ -2,14 +2,13 @@ const express = require('express')
 const router = express.Router()
 const Url = require('../../models/url')
 const random = require('../../public/javascripts/random')
-const indexUrl = 'https://mysterious-retreat-22206.herokuapp.com'
 
 router.get('/', (req, res) => {
   res.render('index')
 })
 
 router.post('/', (req, res) => {
-  const hostName = req.hostname
+  const hostname = req.hostname
   const originalUrl = req.body.url
   const shortenerUrl = random()
   if (originalUrl.length === 0) {
@@ -21,10 +20,10 @@ router.post('/', (req, res) => {
       .lean()
       .then(check => {
         if (check) {
-          return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl, hostName, indexUrl })
+          return res.render('shortUrl', { originalUrl, shortenerUrl: check.shortenerUrl, hostname })
         } else {
           Url.create({ originalUrl, shortenerUrl })
-          return res.render('shortUrl', { originalUrl, shortenerUrl, hostName, indexUrl })
+          return res.render('shortUrl', { originalUrl, shortenerUrl, hostname })
         }
       })
       .catch(error => console.log(error))
